@@ -36,20 +36,23 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 });
 
 document.querySelector('.btn-hold').addEventListener('click', function() {
-    // Add CURRENT score to GLOBAL score
-    scores[activePlayer] += roundScore;
+    if(gamePlaying) {
+        // Add CURRENT score to GLOBAL score
+        scores[activePlayer] += roundScore;
 
-    // Update the UI
-    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+        // Update the UI
+        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
-    // Check if player has won the game
-    if(scores[activePlayer] >= 100) {
-        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
-        document.querySelector('.dice').style.display = 'none';
-        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
-    } else {
-        nextPlayer();
+        // Check if player has won the game
+        if(scores[activePlayer] >= 100) {
+            document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+            document.querySelector('.dice').style.display = 'none';
+            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+            gamePlaying = false;
+        } else {
+            nextPlayer();
+        }
     }
 });
 
@@ -71,6 +74,8 @@ function init() {
     scores = [0, 0];
     roundScore = 0;
     activePlayer = 0;
+
+    gamePlaying = true;
 
     document.querySelector('.dice').style.display = 'none';
 
